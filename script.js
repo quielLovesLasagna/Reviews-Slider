@@ -32,7 +32,7 @@ const reviews = [
   },
 ];
 
-// Elements
+// ---- ELEMENTS ---- //
 const img = document.getElementById("person-img");
 const author = document.getElementById("author");
 const job = document.getElementById("job");
@@ -41,12 +41,17 @@ const info = document.getElementById("info");
 const prevBtn = document.querySelector(".prev-btn");
 const nextBtn = document.querySelector(".next-btn");
 const randomBtn = document.querySelector(".random-btn");
+// ---- END OF ELEMENTS ---- //
 
-// Set starting item
+// Initial data (person)
 let currentItem = 0;
 
+// Last element in reviews array
+const lastArrayElement = reviews.length - 1;
+
+// ---- FUNCTIONS ---- //
 // Show person based on item
-const showPerson = function () {
+const showPerson = () => {
   const item = reviews[currentItem];
   img.src = item.img;
   author.textContent = item.name;
@@ -54,35 +59,50 @@ const showPerson = function () {
   info.textContent = item.text;
 };
 
-// Load initial item
-window.addEventListener("DOMContentLoaded", () => {
-  showPerson();
-});
-
 // Show next person
-nextBtn.addEventListener("click", () => {
-  if (currentItem === reviews.length - 1) {
+const showNextPerson = () => {
+  if (currentItem === lastArrayElement) {
     currentItem = 0;
     showPerson();
   } else {
     currentItem++;
     showPerson();
   }
-});
+};
 
 // Show previous person
-prevBtn.addEventListener("click", () => {
+const showPreviousPerson = () => {
   if (currentItem === 0) {
-    currentItem = reviews.length - 1;
+    currentItem = lastArrayElement;
     showPerson();
   } else {
     currentItem--;
     showPerson();
   }
-});
+};
+
+// Random number generator
+const randomNum = () => Math.floor(Math.random() * reviews.length);
 
 // Show random person
-randomBtn.addEventListener("click", () => {
-  currentItem = Math.floor(Math.random() * reviews.length);
+const showRandomPerson = () => {
+  currentItem = randomNum();
+  showPerson();
+};
+// ---- END OF FUNCTIONS ---- //
+
+// ---- EVENT HANDLERS ---- //
+// Load initial data (person)
+window.addEventListener("DOMContentLoaded", () => {
   showPerson();
 });
+
+// Show next person when nextBtn is clicked
+nextBtn.addEventListener("click", showNextPerson);
+
+// Show previous person when prevBtn is clicked
+prevBtn.addEventListener("click", showPreviousPerson);
+
+// Show random person when randomBtn is clicked
+randomBtn.addEventListener("click", showRandomPerson);
+// ---- END OF EVENT HANDLERS ---- //
